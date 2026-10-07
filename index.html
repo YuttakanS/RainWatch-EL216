@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071b33">
+  <title>RainWatch | ต้นแบบเฝ้าระวังปริมาณฝน</title>
+  <style>
+    :root{--navy:#071b33;--navy2:#102b49;--blue:#1576d2;--cyan:#50c6e8;--ink:#182b40;--muted:#728399;--line:#e3ebf2;--paper:#f4f7fa;--white:#fff;--green:#21a67a;--amber:#efaa3c;--red:#ed6660;--shadow:0 9px 28px #1837540d}
+    *{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font-family:"Leelawadee UI","Noto Sans Thai",Tahoma,system-ui,sans-serif;font-size:14px;line-height:1.55}
+    button,input,select{font:inherit}button{cursor:pointer}.shell{min-height:100vh;display:flex}.sidebar{width:230px;background:var(--navy);color:#e9f4ff;padding:25px 16px;display:flex;flex-direction:column;flex-shrink:0}.brand{display:flex;align-items:center;gap:11px;padding:0 10px 26px;border-bottom:1px solid #ffffff18}.brand-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#69d5f1,#1c7ed3);display:grid;place-items:center;font-size:20px}.brand strong{display:block;font-size:16px;letter-spacing:.2px}.brand small{color:#93abc1;font-size:11px}.nav{padding-top:22px}.nav-label{text-transform:uppercase;font-size:10px;letter-spacing:1.5px;color:#6f8aa5;padding:0 11px 10px}.nav button{border:0;color:#b7c8d9;background:transparent;width:100%;text-align:left;padding:11px 12px;border-radius:9px;margin:2px 0;display:flex;align-items:center;gap:12px}.nav button.active{background:#183b5d;color:#fff}.nav button .ico{width:18px;text-align:center;font-size:17px}.side-note{margin-top:auto;border:1px solid #ffffff1c;background:#ffffff08;padding:14px;border-radius:12px;color:#b9cadb;font-size:11px}.side-note b{display:block;color:#fff;margin-bottom:4px}.side-bottom{padding:18px 10px 0;color:#8098b0;font-size:10px}
+    .main{min-width:0;flex:1}.topbar{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px}.crumb{color:var(--muted);font-size:12px}.crumb b{color:var(--ink);font-weight:600}.top-actions{display:flex;align-items:center;gap:14px}.live{display:flex;align-items:center;gap:7px;color:#597086;font-size:11px}.dot{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px #efaa3c22}.demo-tag{background:#e9f5ff;border:1px solid #d4eafd;color:#1766aa;border-radius:20px;padding:6px 11px;font-weight:700;font-size:10px;letter-spacing:.3px}
+    .content{padding:28px 34px 42px;max-width:1600px;margin:auto}.page-heading{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;gap:16px}.page-heading h1{font-size:24px;line-height:1.25;margin:0 0 5px;color:var(--navy);letter-spacing:-.3px}.page-heading p{margin:0;color:var(--muted);font-size:12px}.date{font-size:11px;color:#8191a2;white-space:nowrap;padding-bottom:3px}
+    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:16px}.kpi,.panel{background:var(--white);border:1px solid #e7edf3;border-radius:13px;box-shadow:var(--shadow)}.kpi{padding:17px 18px;min-height:108px;position:relative;overflow:hidden}.kpi:after{content:"";position:absolute;right:-21px;top:-33px;border:18px solid #eaf5ff;border-radius:50%;width:72px;height:72px}.kpi-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px}.kpi-icon{width:28px;height:28px;border-radius:8px;background:#eef7ff;color:var(--blue);display:grid;place-items:center;font-size:14px}.kpi-value{font-size:27px;line-height:1.2;font-weight:750;color:var(--navy);margin-top:8px;letter-spacing:-.4px}.kpi-value span{font-size:12px;color:#8293a4;font-weight:500;margin-left:4px;letter-spacing:0}.kpi-foot{font-size:10px;color:#94a3b2;margin-top:3px}.kpi-foot .up{color:var(--green);font-weight:700}
+    .dashboard{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(340px,.9fr);gap:16px}.left-stack,.right-stack{display:grid;gap:16px;align-content:start}.panel{overflow:hidden}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;padding:17px 19px 12px;gap:12px}.panel-head h2{font-size:14px;margin:0;color:var(--navy);font-weight:700}.panel-head p{font-size:10px;color:#8b9aab;margin:3px 0 0}.subtle-select{border:1px solid var(--line);color:#61758b;background:#fff;padding:6px 9px;border-radius:7px;font-size:10px;max-width:145px}
+    .map-wrap{position:relative;margin:0 15px 15px;border-radius:10px;min-height:315px;background:linear-gradient(130deg,#e7f2f5,#dbeaf0 55%,#e8f2e9);overflow:hidden}.map-wrap:before,.map-wrap:after{content:"";position:absolute;border:1px solid #fff9;border-radius:50%;width:500px;height:170px;transform:rotate(-26deg);left:10%;top:26%;pointer-events:none}.map-wrap:after{width:420px;height:220px;left:33%;top:8%;transform:rotate(34deg)}.map-label{position:absolute;z-index:2;left:14px;top:12px;background:#ffffffdb;padding:5px 8px;border-radius:6px;color:#5c7186;font-size:9px}.map-foot{position:absolute;z-index:2;left:13px;bottom:11px;font-size:9px;color:#688095;background:#ffffffd9;border-radius:6px;padding:5px 8px}.map-scale{position:absolute;right:14px;bottom:12px;z-index:2;display:flex;gap:4px;align-items:center;background:#ffffffdc;border-radius:8px;padding:6px 8px;font-size:9px;color:#64788c}.scale-chip{width:10px;height:10px;border-radius:50%}.map-svg{position:absolute;inset:0;width:100%;height:100%}.land{fill:#d2e2d4;stroke:#aac5b6;stroke-width:2}.river{fill:none;stroke:#a8d8e9;stroke-width:4;stroke-linecap:round;opacity:.9}.region-label{font-size:10px;fill:#789087;letter-spacing:1px}.station{cursor:pointer}.station circle.outer{fill:#fff;stroke:#fff;stroke-width:5;opacity:.88}.station circle.inner{stroke:#fff;stroke-width:2}.station:hover circle.outer{r:13}.station text{font-size:8px;fill:#536b7f;paint-order:stroke;stroke:#e4f1ef;stroke-width:3px;stroke-linejoin:round}.station.selected circle.outer{stroke:#123f64;stroke-width:3;opacity:.55}
+    .chart-area{padding:0 17px 14px}.chart-meta{display:flex;gap:18px;color:#6f8295;font-size:10px;padding:2px 3px 6px}.legend{display:inline-flex;align-items:center;gap:6px}.legend i{width:8px;height:8px;border-radius:3px;background:var(--blue)}.legend i.pale{background:#b9ddf6}.chart-area canvas{width:100%;height:174px;display:block}
+    .alerts{padding:0 18px 12px}.alert-row{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid #edf1f5}.alert-row:last-child{border:0}.alert-icon{width:26px;height:26px;flex:none;border-radius:8px;display:grid;place-items:center;font-size:12px}.alert-icon.amber{background:#fff4df;color:#be7b10}.alert-icon.red{background:#fff0ef;color:#cd504a}.alert-icon.blue{background:#eaf5ff;color:#2677b8}.alert-row b{font-size:11px;color:#30465b;display:block}.alert-row small{color:#92a0af;font-size:9px}
+    .table-wrap{overflow:auto;padding:0 16px 13px}.data-table{width:100%;border-collapse:collapse;white-space:nowrap}.data-table th{text-align:left;font-size:9px;color:#8a9aac;font-weight:600;padding:9px 7px;border-bottom:1px solid var(--line)}.data-table td{font-size:10px;padding:10px 7px;border-bottom:1px solid #f0f3f6;color:#53677b}.data-table tr:last-child td{border:0}.station-name{font-weight:700;color:#263d53!important}.status{display:inline-flex;align-items:center;gap:5px;padding:3px 7px;border-radius:15px;font-size:9px}.status:before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}.status.normal{background:#e9f7f1;color:#198760}.status.watch{background:#fff5e5;color:#bd811a}.status.high{background:#fff0ef;color:#cb514b}
+    .sim-panel{padding-bottom:4px}.sim-label{font-size:10px;font-weight:700;color:#394e62}.sim-inner{padding:0 19px 16px}.field-row{display:flex;justify-content:space-between;align-items:center;margin:14px 0 7px}.field-row small{font-size:10px;color:#8999a8}.field-row output{font-weight:750;color:#155f9f;font-size:11px}.range{width:100%;accent-color:#2184d1;height:4px}.range-labels{display:flex;justify-content:space-between;color:#a3afbb;font-size:9px;margin-top:1px}.sim-select{width:100%;border:1px solid var(--line);background:#fff;color:#44596e;border-radius:7px;padding:8px 10px;font-size:11px}.controls{display:flex;gap:8px;margin-top:14px;align-items:center}.btn{border:0;border-radius:7px;padding:9px 12px;font-size:10px;font-weight:700;transition:.15s;white-space:nowrap}.btn-primary{background:var(--blue);color:white;flex:1;box-shadow:0 5px 12px #1576d228}.btn-primary:hover{background:#0865ba;transform:translateY(-1px)}.btn-ghost{background:#edf4fa;color:#49667d}.btn-ghost:hover{background:#e0edf7}.sim-hint{background:#f4f8fb;border-radius:7px;padding:9px 10px;color:#8393a3;font-size:9px;margin-top:12px}.thresholds{border-top:1px solid var(--line);margin-top:15px;padding-top:11px}.threshold-head{display:flex;justify-content:space-between;align-items:center}.threshold-head button{border:0;background:none;color:#297ab9;font-size:9px;padding:2px}.threshold-edit{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:8px}.threshold-edit label{font-size:9px;color:#8292a1}.threshold-edit input{display:block;width:100%;border:1px solid var(--line);border-radius:6px;padding:6px 7px;color:#43586d;margin-top:4px;font-size:10px}.telemetry{border:1px solid #e7edf3;border-radius:9px;background:#fbfdff;padding:11px;margin-top:12px}.telemetry-title{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:700;color:#43586d;margin-bottom:9px}.quality{border-radius:12px;background:#e9f7f1;color:#198760;padding:3px 7px;font-size:9px}.telemetry-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px 12px}.telemetry-grid small{display:block;color:#94a3b2;font-size:8px;letter-spacing:.35px}.telemetry-grid b{font-size:10px;color:#30485e;display:block;margin-top:2px}.timeline-head{display:flex;justify-content:space-between;align-items:center;margin-top:15px}.timeline-head output{font-size:10px;font-weight:700;color:#1766a6}.speed-select{width:82px;flex:none}.footer-note{color:#9aa8b5;text-align:right;font-size:9px;padding:17px 3px 0}
+    @media(max-width:1100px){.sidebar{width:72px;padding:20px 10px}.brand{padding:0 7px 22px}.brand-copy,.nav-label,.nav button span:not(.ico),.side-note,.side-bottom{display:none}.nav button{justify-content:center;padding:12px}.dashboard{grid-template-columns:1fr}.right-stack{grid-template-columns:1fr 1fr}.content{padding:23px}.topbar{padding:0 23px}}
+    @media(max-width:690px){.sidebar{display:none}.topbar{height:58px;padding:0 16px}.content{padding:19px 13px 30px}.page-heading{align-items:flex-start;flex-direction:column}.page-heading h1{font-size:21px}.date{display:none}.kpis{grid-template-columns:1fr 1fr;gap:9px}.kpi{padding:13px;min-height:97px}.kpi-value{font-size:23px}.dashboard{gap:11px}.right-stack{grid-template-columns:1fr}.map-wrap{min-height:290px;margin:0 9px 9px}.panel-head{padding:14px 14px 10px}.top-actions{gap:8px}.live{font-size:0}.live .dot{width:8px;height:8px}.subtle-select{max-width:120px}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">⌁</div><div class="brand-copy"><strong>RainWatch</strong><small>RAIN MONITORING SYSTEM</small></div></div>
+    <nav class="nav" aria-label="เมนูหลัก">
+      <div class="nav-label">เมนูหลัก</div>
+      <button class="active" type="button"><span class="ico">▦</span><span>ภาพรวม</span></button>
+      <button type="button" id="navStations"><span class="ico">⌖</span><span>สถานีตรวจวัด</span></button>
+      <button type="button" id="navSimulator"><span class="ico">◉</span><span>เล่นซ้ำข้อมูล</span></button>
+    </nav>
+    <div class="side-note"><b>ต้นแบบสำหรับ EL216</b>ชุดข้อมูลตัวอย่างรูปแบบ telemetry จาก AMR ใช้เล่นซ้ำเพื่อสาธิตการแสดงผล</div>
+    <div class="side-bottom">RainWatch Prototype · v0.1</div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div class="crumb">RainWatch <span style="padding:0 7px;color:#c1cbd4">/</span> <b>ภาพรวม</b></div><div class="top-actions"><span class="live"><i class="dot"></i> REPLAY</span><span class="demo-tag">ชุดข้อมูลตัวอย่าง</span></div></header>
+    <div class="content">
+      <div class="page-heading"><div><h1>ภาพรวมสถานการณ์ฝน</h1><p>เล่นซ้ำข้อมูล telemetry ตามเวลา เพื่อดูว่าค่าจาก AMR จะเปลี่ยนแผนที่ กราฟ และสถานะอย่างไร</p></div><div class="date" id="dateText"></div></div>
+      <section class="kpis" aria-label="สรุปข้อมูลฝน">
+        <article class="kpi"><div class="kpi-head"><span>ฝนสะสมเฉลี่ยในช่วง 24 ชม.</span><span class="kpi-icon">◉</span></div><div class="kpi-value" id="avgRain">—<span>มม.</span></div><div class="kpi-foot"><span class="up">●</span> จาก telemetry ตัวอย่าง</div></article>
+        <article class="kpi"><div class="kpi-head"><span>สถานีในชุดข้อมูล</span><span class="kpi-icon">⌖</span></div><div class="kpi-value" id="stationCount">—<span>สถานี</span></div><div class="kpi-foot">แพ็กเก็ตตัวอย่างมีพิกัดและเวลา</div></article>
+        <article class="kpi"><div class="kpi-head"><span>จุดที่ควรเฝ้าระวัง</span><span class="kpi-icon" style="background:#fff5e5;color:#c18417">△</span></div><div class="kpi-value" id="watchCount">—<span>จุด</span></div><div class="kpi-foot">คำนวณจากเกณฑ์จำลองด้านขวา</div></article>
+        <article class="kpi"><div class="kpi-head"><span>ค่าสูงสุดในสถานีตัวอย่าง</span><span class="kpi-icon" style="background:#fff0ef;color:#ca554e">↗</span></div><div class="kpi-value" id="maxRain">—<span>มม.</span></div><div class="kpi-foot" id="maxPlace">—</div></article>
+      </section>
+      <section class="dashboard">
+        <div class="left-stack">
+          <article class="panel">
+            <div class="panel-head"><div><h2>แผนที่จุดตรวจวัดปริมาณฝน</h2><p>ตำแหน่งจุดตรวจเป็นตัวอย่าง ไม่ใช่ข้อมูล GPS จริง</p></div><select class="subtle-select" id="regionFilter" aria-label="เลือกภูมิภาค"><option value="all">ทุกภูมิภาค</option><option>เหนือ</option><option>ตะวันออกเฉียงเหนือ</option><option>กลาง</option><option>ตะวันออก</option><option>ใต้</option></select></div>
+            <div class="map-wrap">
+              <span class="map-label">ประเทศไทย · แผนภาพเชิงแนวคิด</span>
+              <svg class="map-svg" viewBox="0 0 760 340" role="img" aria-label="แผนภาพประเทศไทยพร้อมจุดวัดฝนจำลอง">
+                <path class="land" d="M265 31 302 26 338 40 365 62 357 83 378 101 361 121 379 139 363 157 372 176 351 191 360 209 341 222 348 240 326 254 333 270 310 280 303 298 288 313 279 331 266 337 258 321 265 304 271 286 279 268 283 249 292 229 300 211 307 191 316 172 322 153 330 134 321 116 336 99 323 81 335 63 319 48 303 38Z"/>
+                <path class="land" d="M499 73 515 66 535 75 544 91 532 105 512 101Z"/><path class="land" d="M456 105 470 99 481 106 476 118 461 119Z"/>
+                <path class="river" d="M300 48 Q318 83 309 115 T303 177 Q287 203 290 232 T271 293"/>
+                <text class="region-label" x="265" y="71">เหนือ</text><text class="region-label" x="366" y="139">อีสาน</text><text class="region-label" x="270" y="211">กลาง</text><text class="region-label" x="307" y="260">ตะวันออก</text><text class="region-label" x="234" y="311">ใต้</text>
+                <g id="stationLayer"></g>
+                <text x="40" y="302" fill="#8aa1af" font-size="9">ข้อมูลจำลองเพื่อสาธิตแนวคิด · แผนที่ไม่แสดงพิกัดจริง</text>
+              </svg>
+              <div class="map-scale"><span class="scale-chip" style="background:var(--green)"></span>ปกติ <span class="scale-chip" style="background:var(--amber);margin-left:6px"></span>เฝ้าระวัง <span class="scale-chip" style="background:var(--red);margin-left:6px"></span>สูง</div>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>ปริมาณฝนตามเวลา</h2><p id="chartCaption">ค่าฝนสะสมของสถานีที่เลือก · 2 ชั่วโมงล่าสุด</p></div><span class="demo-tag" id="chartTime">—</span></div>
+            <div class="chart-area"><div class="chart-meta"><span class="legend"><i></i>ฝนสะสม (24 ชม.)</span><span class="legend"><i class="pale"></i>ตัวอย่างช่วงก่อนหน้า</span></div><canvas id="rainChart" aria-label="กราฟปริมาณฝนตามเวลาจำลอง" role="img"></canvas></div>
+          </article>
+          <article class="panel" id="stationsPanel">
+            <div class="panel-head"><div><h2>สถานีและ AMR ที่ส่งข้อมูล</h2><p>แตะชื่อสถานีเพื่อดูแพ็กเก็ตข้อมูลของอุปกรณ์</p></div><span class="demo-tag">เล่นซ้ำ</span></div>
+            <div class="table-wrap"><table class="data-table"><thead><tr><th>AMR / สถานี</th><th>ภูมิภาค</th><th>ฝนสะสม</th><th>อัตราฝน</th><th>สถานะ</th><th>เวลาที่รับ</th></tr></thead><tbody id="stationRows"></tbody></table></div>
+          </article>
+        </div>
+        <div class="right-stack">
+          <article class="panel sim-panel" id="simPanel">
+            <div class="panel-head"><div><h2>เล่นซ้ำข้อมูล AMR</h2><p>กราฟและแผนที่อัปเดตตามเวลาที่เล่น</p></div><span class="kpi-icon">↻</span></div>
+            <div class="sim-inner">
+              <label class="sim-label" for="stationSelect">รายละเอียดสถานี</label><select class="sim-select" id="stationSelect"></select>
+              <div class="telemetry" aria-live="polite"><div class="telemetry-title"><span>แพ็กเก็ตล่าสุด</span><span class="quality" id="qualityBadge">—</span></div><div class="telemetry-grid"><div><small>DEVICE ID</small><b id="deviceId">—</b></div><div><small>เวลาเก็บข้อมูล</small><b id="deviceTime">—</b></div><div><small>พิกัดตัวอย่าง</small><b id="deviceCoords">—</b></div><div><small>คุณภาพสัญญาณ</small><b id="deviceSignal">—</b></div><div><small>ฝนสะสม 24 ชม.</small><b id="deviceRain">—</b></div><div><small>อัตราฝน</small><b id="deviceRate">—</b></div></div></div>
+              <div class="timeline-head"><span class="sim-label">เวลาเล่นซ้ำ</span><output id="playbackTime">—</output></div><input class="range" id="timeSlider" type="range" min="0" max="12" step="1" value="12" aria-label="เลื่อนเวลาเล่นซ้ำ"><div class="range-labels"><span id="timeStart">—</span><span id="timeEnd">—</span></div>
+              <div class="controls"><button class="btn btn-primary" id="playBtn" type="button">▶ เล่น</button><select class="sim-select speed-select" id="speedSelect" aria-label="ความเร็วเล่นซ้ำ"><option value="1">1×</option><option value="10" selected>10×</option><option value="30">30×</option><option value="60">60×</option></select><button class="btn btn-ghost" id="latestBtn" type="button">ล่าสุด</button></div>
+              <div class="sim-hint">เล่น = รับข้อมูลทุก 10 นาทีตามลำดับ · เลือกความเร็วเพื่อเร่งช่วงเวลา · ลากแถบเพื่อข้ามไปเวลาที่ต้องการ</div>
+              <div class="thresholds"><div class="threshold-head"><span class="sim-label">การแปลสีสถานะ</span></div><div class="sim-hint" id="thresholdHint">เกณฑ์ตัวอย่างสำหรับแสดงผลเท่านั้น ไม่ใช่เกณฑ์เตือนภัยทางการ</div></div>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>สรุปสถานีที่ควรติดตาม</h2><p>จัดอันดับตามเกณฑ์จำลองปัจจุบัน</p></div></div><div class="alerts" id="alertList"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>ลำดับการทำงานของระบบ</h2><p>แนวคิดสำหรับขยายจากวงจรต้นแบบ</p></div></div>
+            <div class="alerts"><div class="alert-row"><span class="alert-icon blue">1</span><div><b>เซนเซอร์บนกระบอกวัดฝน</b><small>เปลี่ยนระดับน้ำเป็นสัญญาณไฟฟ้า</small></div></div><div class="alert-row"><span class="alert-icon blue">2</span><div><b>AMR แนบพิกัดและเวลา</b><small>จัดเก็บค่าไว้ก่อนเมื่อสัญญาณหาย</small></div></div><div class="alert-row"><span class="alert-icon amber">3</span><div><b>AI สรุปแนวโน้ม</b><small>ใช้ข้อมูลย้อนหลังและเกณฑ์ที่ตรวจสอบได้</small></div></div><div class="alert-row"><span class="alert-icon red">4</span><div><b>เว็บแสดงแผนที่และกราฟ</b><small>ต้นแบบนี้ยังไม่ใช่ระบบเตือนภัยจริง</small></div></div></div>
+          </article>
+        </div>
+      </section>
+      <div class="footer-note">ข้อมูล telemetry และเวลาเป็นชุดตัวอย่างสังเคราะห์เพื่อสาธิตการเล่นซ้ำ · ยังไม่ได้เชื่อมต่อกับ AMR จริงหรือบริการเตือนภัยทางการ</div>
+    </div>
+  </main>
+</div>
+<script src="replay.js"></script>
+</body>
+</html>
